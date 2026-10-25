@@ -182,13 +182,8 @@ function onTen(el,m){
  if(+v===1){tenDone[pend.t-1]=true;pend=null;setMsg('');render();return;}
  el.value='';shake(el);setMsg('You moved 1 ten. Write 1.');
 }
-function validTop(p){const t=p.indexOf('top'),b=p.indexOf('bottom');return t<0||b<0||nums[t]>nums[b];}
-function tapMove(i){
- const other=1-i,p=place.slice();
- if(place[other]==='stage')p[i]='top';
- else{p[i]=place[other]==='top'?'bottom':'top';if(!validTop(p)){p[i]=place[other];p[other]=place[other]==='top'?'bottom':'top';}}
- place=p;render();
-}
+function validTop(p){return [0,1].every(j=>!(p[j]==='top'&&nums[j]<nums[1-j])&&!(p[j]==='bottom'&&nums[j]>nums[1-j]));}
+function tapMove(i){place[i]=nums[i]>nums[1-i]?'top':'bottom';render();}
 function moveTo(i,target){
  const p=place.slice();
  if(target!=='stage'){const j=p.findIndex((x,n)=>x===target&&n!==i);if(j>=0)p[j]=p[i];}
