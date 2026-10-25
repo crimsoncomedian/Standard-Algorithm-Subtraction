@@ -120,7 +120,7 @@ function render(){
     if(tenDone[k])pre=`<span class="pb${loan[k]?' st':''}">1</span>`;
     else if(pend&&pend.t===k+1&&pend.stage==='ten')pre=`<input class="pbi" id="inTen" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="One ten">`;}
    const d=empty?null:dig(m.top,k);
-   const tappable=!empty&&d!==null&&k>=1&&!loan[k]&&!pend&&m.cur!==null;
+   const tappable=!empty&&d!==null&&k>=1&&!loan[k]&&!pend&&m.cur!==null&&ans[k-1]===undefined;
    const dg=d===null?'':`<span class="dg${loan[k]?' strike':''}${tappable?' tap':''}${nudge&&k===m.allowed?' nudge':''}${wigCol===k?' wig':''}" data-col="${k}">${d}</span>`;
    return `<div class="c${act(k)}">${pre}${dg}</div>`;}).join('');
   const attrs=empty||m.placed?'':` role="button" tabindex="0" aria-label="${m.top}, drag to move or press Enter to take out"`;
