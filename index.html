@@ -20,7 +20,7 @@ h1{font-size:clamp(22px,4vw,30px);margin:0 0 6px;text-align:center}.sub{color:#5
 .cells{display:flex;border:2px solid transparent;border-radius:12px}
 .cells.empty{border-color:#afbed1;border-style:dashed;min-height:68px}
 .slot[role=button]{cursor:grab;touch-action:none}
-.c{width:64px;height:68px;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:800;border-radius:10px}
+.c{width:90px;height:68px;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:800;border-radius:10px}
 .c.act{background:#eeeafe}
 .row.cr .c{height:44px}
 .row.top,.row.bot{margin:5px 0}
@@ -40,20 +40,22 @@ h1{font-size:clamp(22px,4vw,30px);margin:0 0 6px;text-align:center}.sub{color:#5
 .help{text-align:center;color:#5e6d81;font-size:14px;margin-top:8px}
 .next{display:block;margin:6px auto 0;border:0;border-radius:10px;background:#5144c6;color:#fff;font-weight:700;font-size:16px;padding:12px 20px;cursor:pointer}
 .title2{text-align:center;font-weight:700;margin:0 0 10px}
-@media(max-width:400px){.c{width:54px}.sg{width:30px}.tile{font-size:28px;padding:8px 14px}.abox,.afix{width:48px}}
+@media(max-width:400px){.c{width:68px}.sg{width:30px}.tile{font-size:28px;padding:8px 14px}.abox,.afix{width:48px}}
 
-.c{position:relative;gap:3px}
+.c{position:relative}
+.num{position:relative;display:inline-flex;align-items:flex-start;gap:8px}
 .pb,.pbi{width:28px;height:28px;font-size:18px;font-weight:800;text-align:center;border-radius:7px;font-family:inherit;padding:0;align-self:flex-start;margin-top:5px;flex:none}
 .pb{display:flex;align-items:center;justify-content:center;border:2px solid #e08a1e;background:#fff8ee;color:#a35d0b}
-.pb.st{opacity:.45;text-decoration:line-through}
+.pb.st{opacity:.45}
 .pbi{border:2px solid #e08a1e;background:#fff;color:#18253a}
 .pbi:focus,.cbox:focus{outline:3px solid #f6cf9c;outline-offset:1px}
 .dg{position:relative;display:inline-block;line-height:1}
-.dg.tap{cursor:pointer;padding:2px 8px;margin:0 -8px;border-radius:12px;background:#f3f1ff;outline:2px dashed #b4abf0;outline-offset:1px}
+.dg.tap{cursor:pointer;padding:2px 5px;margin:0 -5px;border-radius:12px;background:#f3f1ff;outline:2px dashed #b4abf0;outline-offset:1px}
 .hand{font-size:30px;line-height:1;animation:bob 1s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(-4px)}50%{transform:translateY(5px)}}
 .dg.strike{color:#9aa6b6}
-.dg.strike::after{content:"";position:absolute;left:-4px;right:-4px;top:50%;border-top:4px solid #d33;transform:rotate(-18deg)}
+.num.strike::after{content:"";position:absolute;left:-6px;right:-6px;top:50%;border-top:4px solid #d33;border-radius:2px;transform:rotate(20deg);pointer-events:none}
+@media(max-width:400px){.pb,.pbi{width:24px;height:24px;font-size:16px}.num{gap:5px}}
 .dg.nudge{animation:pulse 0.7s ease-in-out 3;border-radius:10px}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 #e08a1e00;background:transparent}50%{box-shadow:0 0 0 8px #e08a1e55;background:#fff1de}}
 .wig{animation:wig .4s}
@@ -122,7 +124,7 @@ function render(){
    const d=empty?null:dig(m.top,k);
    const tappable=!empty&&d!==null&&k>=1&&!loan[k]&&!pend&&m.cur!==null&&ans[k-1]===undefined;
    const dg=d===null?'':`<span class="dg${loan[k]?' strike':''}${tappable?' tap':''}${nudge&&k===m.allowed?' nudge':''}${wigCol===k?' wig':''}" data-col="${k}">${d}</span>`;
-   return `<div class="c${act(k)}">${pre}${dg}</div>`;}).join('');
+   return `<div class="c${act(k)}">${d===null?'':`<span class="num${loan[k]?' strike':''}">${pre}${dg}</span>`}</div>`;}).join('');
   const attrs=empty||m.placed?'':` role="button" tabindex="0" aria-label="${m.top}, drag to move or press Enter to take out"`;
   return `<div class="row top"><div class="sg"></div><div class="cells slot ${empty?'empty':''}${wigSlot==='top'?' wig':''}" data-drop="top" data-slot="top"${attrs}>${cells}</div></div>`;};
  const botRow=()=>{
