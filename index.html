@@ -50,14 +50,12 @@ h1{font-size:clamp(22px,4vw,30px);margin:0 0 6px;text-align:center}.sub{color:#5
 .pbi{border:2px solid #e08a1e;background:#fff;color:#18253a}
 .pbi:focus,.cbox:focus{outline:3px solid #f6cf9c;outline-offset:1px}
 .dg{position:relative;display:inline-block;line-height:1}
-.dg.tap{cursor:pointer;padding:2px 5px;margin:0 -5px;border-radius:12px;background:#f3f1ff;outline:2px dashed #b4abf0;outline-offset:1px}
+.dg.tap{cursor:pointer}
 .hand{font-size:30px;line-height:1;animation:bob 1s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(-4px)}50%{transform:translateY(5px)}}
 .dg.strike{color:#9aa6b6}
 .num.strike::after{content:"";position:absolute;left:-6px;right:-6px;top:50%;border-top:4px solid #d33;border-radius:2px;transform:rotate(20deg);pointer-events:none}
 @media(max-width:400px){.pb,.pbi{width:24px;height:24px;font-size:16px}.num{gap:5px}}
-.dg.nudge{animation:pulse 0.7s ease-in-out 3;border-radius:10px}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 #e08a1e00;background:transparent}50%{box-shadow:0 0 0 8px #e08a1e55;background:#fff1de}}
 .wig{animation:wig .4s}
 .shake{animation:wig .4s}
 @keyframes wig{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
@@ -105,12 +103,11 @@ function render(){
  const cols=[];for(let k=m.maxd-1;k>=0;k--)cols.push(k);
  const act=k=>m.cur!==null&&k===m.cur&&!pend?' act':'';
  let h='';
- const handShow=m.placed&&!tapUsed&&!isLocked&&m.maxd>=2;
  // lowered-digit row
  h+=`<div class="row cr"><div class="sg"></div><div class="cells">`+cols.map(k=>{
   let inner='';
   if(lowVal[k]!==undefined)inner=`<div class="cfix">${lowVal[k]}</div>`;
-  else if(handShow&&k===1)inner=`<span class="hand" aria-hidden="true">\uD83D\uDC47</span>`;
+  else if(m.need&&!pend&&k===m.allowed)inner=`<span class="hand" aria-hidden="true">\uD83D\uDC47</span>`;
   else if(pend&&pend.t===k&&pend.stage==='low')inner=`<input class="cbox" id="inLow" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="New top digit">`;
   return `<div class="c" style="height:44px">${inner}</div>`;}).join('')+`</div></div>`;
  // number rows
